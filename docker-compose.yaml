@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:alpine3.17
+    restart: always
+    env_file:
+      - config/soapbox.env
+    volumes:
+      - db:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+
+volumes:
+  db:
