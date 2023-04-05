@@ -132,3 +132,5 @@ dmypy.json
 # soapbox
 # Jetbrains project config directory
 /.idea
+# env file
+/config/*.env
