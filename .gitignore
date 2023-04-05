@@ -134,3 +134,5 @@ dmypy.json
 /.idea
 # env file
 /config/*.env
+# migrations
+/migrations
