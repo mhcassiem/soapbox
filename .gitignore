@@ -127,3 +127,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+# soapbox
+# Jetbrains project config directory
+/.idea
