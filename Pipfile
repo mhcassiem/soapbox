@@ -9,6 +9,8 @@ flask-sqlalchemy = "*"
 flask-login = "*"
 flask-migrate = "*"
 psycopg2 = "*"
+flask-wtf = "*"
+email-validator = "*"
 
 [dev-packages]
 
