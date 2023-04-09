@@ -1,16 +1,12 @@
 from flask import Blueprint, request, jsonify, url_for
+from flask_jwt_extended import jwt_required, current_user
 
 from api.errors import bad_request
 from apps.user.models import User
 from apps.shared.models import db
-from apps.shared.app import basic_auth, token_auth
+from apps.shared.app import basic_auth
 
 api = Blueprint('api', __name__)
-
-
-@api.route('/users/<int:user_id>', methods=['GET'])
-def get_user(user_id: int):
-    return jsonify(User.query.get_or_404(user_id).to_dict())
 
 
 @api.route('/register', methods=['POST'])
@@ -32,19 +28,31 @@ def register():
     return response
 
 
-@api.route('/tokens', methods=['POST'])
+@api.route('/login', methods=['POST'])
 @basic_auth.login_required
-def get_token():
-    token = basic_auth.current_user().get_token()
-    db.session.commit()
-    return jsonify({'token': token})
+def login():
+    access_token, refresh_token = basic_auth.current_user().get_token()
+    return jsonify(access_token=access_token, refresh_token=refresh_token)
 
 
-@api.route('/tokens', methods=['DELETE'])
-@token_auth.login_required
+@api.route("/refresh", methods=["POST"])
+@jwt_required(refresh=True)
+def refresh():
+    access_token = current_user.refresh_access_token()
+    return jsonify(access_token=access_token)
+
+
+@api.route('/logout', methods=['DELETE'])
+@jwt_required()
 def revoke_token():
-    token_auth.current_user().revoke_token()
+    current_user.revoke_token()
     db.session.commit()
-    response = jsonify({'message': 'Token revoked'})
+    response = jsonify({'message': 'Logged Out'})
     response.status_code = 204
     return response
+
+
+@api.route('/users/<int:user_id>', methods=['GET'])
+@jwt_required()
+def get_user(user_id: int):
+    return jsonify(User.query.get_or_404(user_id).to_dict())
