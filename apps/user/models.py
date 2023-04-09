@@ -1,6 +1,4 @@
-import base64
 import enum
-import os
 from datetime import datetime, timedelta
 
 from flask_jwt_extended import create_access_token, create_refresh_token
@@ -8,6 +6,7 @@ from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from apps.shared.models import db
+from consts import JWT_ACCESS_TOKEN_EXPIRES
 
 
 class MemberType(enum.Enum):
@@ -45,20 +44,20 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password, password)
 
 # todo set token expiration from env
-    def get_token(self, expires_in=3600):
+    def get_token(self):
         now = datetime.utcnow()
         if self.token and self.token_expiration > now + timedelta(seconds=60):
             return self.token
         self.token = create_access_token(identity=self.email, fresh=True)
         self.refresh_token = create_refresh_token(identity=self.email)
-        self.token_expiration = now + timedelta(seconds=expires_in)
+        self.token_expiration = now + JWT_ACCESS_TOKEN_EXPIRES
         db.session.add(self)
         return self.token, self.refresh_token
 
-    def refresh_access_token(self, expires_in=3600):
+    def refresh_access_token(self):
         now = datetime.utcnow()
         self.token = create_access_token(identity=self.email, fresh=False)
-        self.token_expiration = now + timedelta(seconds=expires_in)
+        self.token_expiration = now + JWT_ACCESS_TOKEN_EXPIRES
         db.session.add(self)
         return self.token
 
