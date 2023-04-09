@@ -25,7 +25,3 @@ def user_lookup_callback(_jwt_header, jwt_data):
     identity = jwt_data['sub']
     return User.query.filter_by(email=identity).one_or_none()
 
-
-@jwt.error_handler
-def token_auth_error(status):
-    return error_response(status)
