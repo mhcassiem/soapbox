@@ -3,6 +3,7 @@ import enum
 import os
 from datetime import datetime, timedelta
 
+from flask_jwt_extended import create_access_token, create_refresh_token
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -28,6 +29,7 @@ class User(db.Model, UserMixin):
     updated_at = db.Column(db.DateTime, nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     token = db.Column(db.String(32), index=True, unique=True)
+    refresh_token = db.Column(db.String, unique=True)
     token_expiration = db.Column(db.DateTime)
 
     def __repr__(self):
@@ -47,7 +49,15 @@ class User(db.Model, UserMixin):
         now = datetime.utcnow()
         if self.token and self.token_expiration > now + timedelta(seconds=60):
             return self.token
-        self.token = base64.b64encode(os.urandom(24)).decode('utf-8')
+        self.token = create_access_token(identity=self.email, fresh=True)
+        self.refresh_token = create_refresh_token(identity=self.email)
+        self.token_expiration = now + timedelta(seconds=expires_in)
+        db.session.add(self)
+        return self.token, self.refresh_token
+
+    def refresh_access_token(self, expires_in=3600):
+        now = datetime.utcnow()
+        self.token = create_access_token(identity=self.email, fresh=False)
         self.token_expiration = now + timedelta(seconds=expires_in)
         db.session.add(self)
         return self.token
