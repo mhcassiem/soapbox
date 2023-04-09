@@ -1,5 +1,5 @@
 from apps.api.errors import error_response
-from apps.shared.app import login_manager, basic_auth, token_auth
+from apps.shared.app import login_manager, basic_auth, jwt
 from apps.user.models import User
 
 
@@ -20,11 +20,12 @@ def basic_auth_error(status):
     return error_response(status)
 
 
-@token_auth.verify_token
-def verify_token(token):
-    return User.check_token(token) if token else None
+@jwt.user_lookup_loader
+def user_lookup_callback(_jwt_header, jwt_data):
+    identity = jwt_data['sub']
+    return User.query.filter_by(email=identity).one_or_none()
 
 
-@token_auth.error_handler
+@jwt.error_handler
 def token_auth_error(status):
     return error_response(status)
