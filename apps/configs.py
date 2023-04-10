@@ -10,6 +10,14 @@ class Config(object):
     JWT_ACCESS_TOKEN_EXPIRES = consts.JWT_ACCESS_TOKEN_EXPIRES
     JWT_REFRESH_TOKEN_EXPIRES = consts.JWT_REFRESH_TOKEN_EXPIRES
 
+    MAIL_SERVER = consts.MAIL_SERVER
+    MAIL_PORT = consts.MAIL_PORT
+    MAIL_USE_TLS = consts.MAIL_USE_TLS
+    MAIL_USE_SSL = consts.MAIL_USE_SSL
+    MAIL_USERNAME = consts.MAIL_USERNAME
+    MAIL_PASSWORD = consts.MAIL_PASSWORD
+    ADMINS = consts.ADMINS
+
     SQLALCHEMY_DATABASE_URI = \
         f"postgresql://{consts.DB_USER}:{consts.DB_PASSWORD}@{consts.DB_HOST}:{consts.DB_PORT}/{consts.DB_NAME}"
 

@@ -3,7 +3,7 @@ import os
 from flask import Flask
 
 from apps.shared.models import db
-from apps.shared.app import migrate, jwt
+from apps.shared.app import migrate, jwt, mail
 from apps.auth.app import login_manager
 from apps.shared.routes import shared
 from apps.auth.routes import auth
@@ -22,5 +22,6 @@ def create_app():
     db.init_app(app)
     login_manager.init_app(app)
     jwt.init_app(app)
+    mail.init_app(app)
     migrate.init_app(app, db)
     return app
