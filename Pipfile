@@ -11,8 +11,16 @@ flask-migrate = "*"
 psycopg2 = "*"
 flask-wtf = "*"
 email-validator = "*"
+flask-jwt-extended = "*"
+flask-httpauth = "*"
+flask-mail = "*"
+flask-security-too = "*"
+zxcvbn = "*"
+argon2-cffi = "*"
+bleach = "*"
 
 [dev-packages]
+httpie = "*"
 
 [requires]
 python_full_version = "3.10.10"

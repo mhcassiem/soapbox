@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {{ super() }}
+    <h1>Sign In</h1>
+    <form method="POST" action="{{ url_for_security('login') }}" name="login_user_form">
+        {{ login_user_form.hidden_tag() }}
+        <p>
+            {{ login_user_form.email.label }}<br>
+            {{ login_user_form.email(size=32) }}
+        </p>
+        <p>
+            {{ login_user_form.password.label }}<br>
+            {{ login_user_form.password(size=32) }}
+        </p>
+        <p>{{ login_user_form.remember() }} {{ login_user_form.remember.label }}</p>
+        <p>{{ login_user_form.submit() }}</p>
+        <p>Forgot Your Password?
+            <a href="{{ url_for('security.forgot_password') }}">Click to Reset It</a>
+        </p>
+        <p>New User? <a href="{{ url_for('security.register') }}">Click to Register!</a></p>
+    </form>
+{% endblock %}
