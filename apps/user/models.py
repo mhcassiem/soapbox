@@ -1,30 +1,22 @@
-import enum
 from datetime import datetime, timedelta
 
 from flask_jwt_extended import create_access_token, create_refresh_token
-from flask_login import UserMixin
-from werkzeug.security import generate_password_hash, check_password_hash
+from flask_security.models.fsqla import FsUserMixin, FsRoleMixin, FsModels
 
 from apps.shared.models import db
-from consts import JWT_ACCESS_TOKEN_EXPIRES
+from apps.consts import JWT_ACCESS_TOKEN_EXPIRES
+
+FsModels.set_db_info(db, user_table_name="users", role_table_name="roles")
 
 
-class MemberType(enum.Enum):
-    user = 'user'
-    author = 'author'
+class Role(db.Model, FsRoleMixin):
+    __tablename__ = "roles"
 
 
-class User(db.Model, UserMixin):
+class User(db.Model, FsUserMixin):
     __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String, nullable=False, index=True, unique=True)
-    username = db.Column(db.String, nullable=False, index=True, unique=True)
-    password = db.Column(db.String, nullable=False)
     first_name = db.Column(db.String, nullable=True)
     last_name = db.Column(db.String, nullable=True)
-    is_staff = db.Column(db.Boolean, default=False)
-    is_superuser = db.Column(db.Boolean, default=False)
-    member_type = db.Column(db.Enum(MemberType), default='user')
     updated_at = db.Column(db.DateTime, nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     token = db.Column(db.String(32), index=True, unique=True)
@@ -37,14 +29,7 @@ class User(db.Model, UserMixin):
     def to_dict(self):
         return dict(id=self.id, email=self.email)
 
-    def set_password(self, password):
-        self.password = generate_password_hash(password)
-
-    def check_password(self, password):
-        return check_password_hash(self.password, password)
-
-# todo set token expiration from env
-    def get_token(self):
+    def get_user_tokens(self):
         now = datetime.utcnow()
         if self.token and self.token_expiration > now + timedelta(seconds=60):
             return self.token
@@ -61,7 +46,7 @@ class User(db.Model, UserMixin):
         db.session.add(self)
         return self.token
 
-    def revoke_token(self):
+    def revoke_access_token(self):
         self.token_expiration = datetime.utcnow() - timedelta(seconds=1)
 
     @staticmethod

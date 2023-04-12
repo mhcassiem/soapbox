@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify, url_for
 from flask_jwt_extended import jwt_required, current_user
 
-from api.errors import bad_request
+from apps.api.errors import bad_request
 from apps.user.models import User
 from apps.shared.models import db
 from apps.shared.app import basic_auth
@@ -31,7 +31,7 @@ def register():
 @api.route('/login', methods=['POST'])
 @basic_auth.login_required
 def login():
-    access_token, refresh_token = basic_auth.current_user().get_token()
+    access_token, refresh_token = basic_auth.current_user().get_user_tokens()
     return jsonify(access_token=access_token, refresh_token=refresh_token)
 
 
@@ -45,7 +45,7 @@ def refresh():
 @api.route('/logout', methods=['DELETE'])
 @jwt_required()
 def revoke_token():
-    current_user.revoke_token()
+    current_user.revoke_access_token()
     db.session.commit()
     response = jsonify({'message': 'Logged Out'})
     response.status_code = 204
