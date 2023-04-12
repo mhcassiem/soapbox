@@ -1,11 +1,14 @@
+from flask_security import SQLAlchemyUserDatastore, Security
+
 from apps.api.errors import error_response
-from apps.shared.app import login_manager, basic_auth, jwt
-from apps.user.models import User
+from apps.shared.app import basic_auth, jwt
+from apps.user.models import User, Role
+from apps.shared.models import db
+from apps.auth.forms import ExtendedRegistrationForm
 
+user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 
-@login_manager.user_loader
-def load_user(user_id: str):
-    return User.query.get(int(user_id))
+security = Security(datastore=user_datastore, register_form=ExtendedRegistrationForm)
 
 
 @basic_auth.verify_password
@@ -24,4 +27,3 @@ def basic_auth_error(status):
 def user_lookup_callback(_jwt_header, jwt_data):
     identity = jwt_data['sub']
     return User.query.filter_by(email=identity).one_or_none()
-
