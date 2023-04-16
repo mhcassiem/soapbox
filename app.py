@@ -8,9 +8,11 @@ from apps.shared.routes import shared
 from apps.api.routes import api
 from apps.error_handlers.routes import error_handlers
 from apps.auth.app import security
+from apps.utils.logger import configure_logger
 
 
 def create_app():
+    configure_logger()
     app = Flask(__name__)
     app.config.from_object(os.environ['APP_SETTINGS'])
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
