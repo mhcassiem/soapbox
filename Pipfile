@@ -18,6 +18,7 @@ flask-security-too = "*"
 zxcvbn = "*"
 argon2-cffi = "*"
 bleach = "*"
+gunicorn = "*"
 
 [dev-packages]
 httpie = "*"
