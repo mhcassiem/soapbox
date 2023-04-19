@@ -5,11 +5,24 @@ services:
     image: postgres:alpine3.17
     restart: always
     env_file:
-      - config/soapbox.env
+      - config/database.env
     volumes:
       - db:/var/lib/postgresql/data
     ports:
       - '5432:5432'
+
+  soapbox:
+    image: soapbox:v1.0.0
+    container_name: soapbox
+    restart: always
+    depends_on:
+      - db
+    env_file:
+      - config/soapbox.env
+    expose:
+      - 8000
+    ports:
+      - '8000:8000'
 
 volumes:
   db:

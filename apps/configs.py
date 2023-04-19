@@ -1,4 +1,5 @@
 from apps import consts
+from apps.utils.helpers import parse_time
 
 
 class Config(object):
@@ -16,8 +17,8 @@ class Config(object):
     SECURITY_USERNAME_ENABLE = consts.SECURITY_USERNAME_ENABLE
     SECURITY_RECOVERABLE = consts.SECURITY_RECOVERABLE
 
-    JWT_ACCESS_TOKEN_EXPIRES = consts.JWT_ACCESS_TOKEN_EXPIRES
-    JWT_REFRESH_TOKEN_EXPIRES = consts.JWT_REFRESH_TOKEN_EXPIRES
+    JWT_ACCESS_TOKEN_EXPIRES = parse_time(consts.JWT_ACCESS_TOKEN_EXPIRES)
+    JWT_REFRESH_TOKEN_EXPIRES = parse_time(consts.JWT_REFRESH_TOKEN_EXPIRES)
 
     MAIL_SERVER = consts.MAIL_SERVER
     MAIL_PORT = consts.MAIL_PORT

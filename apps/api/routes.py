@@ -1,10 +1,10 @@
 from flask import Blueprint, request, jsonify, url_for
 from flask_jwt_extended import jwt_required, current_user
+from flask_security import http_auth_required
 
 from apps.api.errors import bad_request
 from apps.user.models import User
 from apps.shared.models import db
-from apps.shared.app import basic_auth
 
 api = Blueprint('api', __name__)
 
@@ -29,9 +29,9 @@ def register():
 
 
 @api.route('/login', methods=['POST'])
-@basic_auth.login_required
+@http_auth_required
 def login():
-    access_token, refresh_token = basic_auth.current_user().get_user_tokens()
+    access_token, refresh_token = current_user().get_user_tokens()
     return jsonify(access_token=access_token, refresh_token=refresh_token)
 
 

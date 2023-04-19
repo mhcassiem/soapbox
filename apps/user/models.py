@@ -5,6 +5,7 @@ from flask_security.models.fsqla import FsUserMixin, FsRoleMixin, FsModels
 
 from apps.shared.models import db
 from apps.consts import JWT_ACCESS_TOKEN_EXPIRES
+from apps.utils.helpers import parse_time
 
 FsModels.set_db_info(db, user_table_name="users", role_table_name="roles")
 
@@ -35,14 +36,14 @@ class User(db.Model, FsUserMixin):
             return self.token
         self.token = create_access_token(identity=self.email, fresh=True)
         self.refresh_token = create_refresh_token(identity=self.email)
-        self.token_expiration = now + JWT_ACCESS_TOKEN_EXPIRES
+        self.token_expiration = now + parse_time(JWT_ACCESS_TOKEN_EXPIRES)
         db.session.add(self)
         return self.token, self.refresh_token
 
     def refresh_access_token(self):
         now = datetime.utcnow()
         self.token = create_access_token(identity=self.email, fresh=False)
-        self.token_expiration = now + JWT_ACCESS_TOKEN_EXPIRES
+        self.token_expiration = now + parse_time(JWT_ACCESS_TOKEN_EXPIRES)
         db.session.add(self)
         return self.token
 

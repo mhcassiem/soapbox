@@ -1,0 +1,44 @@
+[
+  {
+    "model": "apps.user.models.Role",
+    "records": [
+      {
+        "id": 1,
+        "name": "user",
+        "description": "A normal site user",
+        "permissions": [
+          "blog-read"
+        ]
+      },
+      {
+        "id": 2,
+        "name": "writer",
+        "description": "A blog post writer",
+        "permissions": [
+          "blog-read",
+          "blog-create",
+          "blog-delete",
+          "blog-update"
+        ]
+      },
+      {
+        "id": 3,
+        "name": "staff",
+        "description": "Manages site content and users",
+        "permissions": [
+          "user-update",
+          "blog-read",
+          "blog-delete"
+        ]
+      },
+      {
+        "id": 4,
+        "name": "admin",
+        "description": "Has all permissions, sees everything",
+        "permissions": [
+          "*"
+        ]
+      }
+    ]
+  }
+]
