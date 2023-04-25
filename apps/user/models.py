@@ -20,7 +20,7 @@ class User(db.Model, FsUserMixin):
     last_name = db.Column(db.String, nullable=True)
     updated_at = db.Column(db.DateTime, nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    token = db.Column(db.String(32), index=True, unique=True)
+    token = db.Column(db.String, index=True, unique=True)
     refresh_token = db.Column(db.String, unique=True)
     token_expiration = db.Column(db.DateTime)
 

@@ -9,6 +9,7 @@ from apps.api.routes import api
 from apps.error_handlers.routes import error_handlers
 from apps.auth.app import security
 from apps.utils.logger import configure_logger
+from apps.graphql_api.routes import graphql
 
 
 def create_app():
@@ -19,6 +20,7 @@ def create_app():
     app.register_blueprint(shared)
     app.register_blueprint(error_handlers)
     app.register_blueprint(api, url_prefix='/api')
+    app.register_blueprint(graphql)
     db.init_app(app)
     security.init_app(app)
     jwt.init_app(app)
