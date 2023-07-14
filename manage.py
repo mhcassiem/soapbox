@@ -17,12 +17,14 @@ cli = FlaskGroup(create_app=create_app)
 @cli.command('test')
 @click.argument('test_case', default='test')
 def test(test_case='test'):
+    """Hello  World"""
     logger = get_logger('test')
     logger.error(f'Hello {test_case}')
 
 
 @cli.command('seed')
 def seed():
+    """Seeds database with default data."""
     logger = get_logger('seed')
     for filename in os.listdir(consts.FIXTURES_DIR):
         data = load_json_file(f'config/fixtures/{filename}')

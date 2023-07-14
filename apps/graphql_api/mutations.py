@@ -1,7 +1,7 @@
 from ariadne import MutationType
 from flask_security import http_auth_required, current_user, verify_password
 
-from auth.app import user_datastore
+from apps.auth.app import user_datastore
 
 mutation = MutationType()
 

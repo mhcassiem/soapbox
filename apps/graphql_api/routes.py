@@ -3,9 +3,9 @@ from ariadne.explorer import ExplorerGraphiQL
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required
 
-from configs import Config
-from graphql_api.mutations import mutation
-from graphql_api.queries import query
+from apps.configs import Config
+from apps.graphql_api.mutations import mutation
+from apps.graphql_api.queries import query
 
 graphql = Blueprint('graphql_api', __name__)
 type_defs = gql(load_schema_from_path('schema.graphql'))
