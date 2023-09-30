@@ -23,6 +23,7 @@ class User(db.Model, FsUserMixin):
     token = db.Column(db.String, index=True, unique=True)
     refresh_token = db.Column(db.String, unique=True)
     token_expiration = db.Column(db.DateTime)
+    remember_me = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
         return f"User {self.email}"
