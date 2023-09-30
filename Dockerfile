@@ -12,4 +12,4 @@ RUN pipenv install --system --deploy --ignore-pipfile
 
 COPY . .
 
-CMD [ "gunicorn", "--graceful-timeout", "5" , "wsgi:app", "-w", "4", "-b", "0.0.0.0:8000"]
+#CMD [ "gunicorn", "--graceful-timeout", "5" , "wsgi:app", "-w", "4", "-b", "0.0.0.0:8000"]

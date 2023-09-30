@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+#  todo - we should move the different services to a workbench mono repo
   db:
     image: postgres:alpine3.17
     restart: always
@@ -11,18 +12,28 @@ services:
     ports:
       - '5432:5432'
 
+  mailserver:
+    image: mailhog/mailhog
+    logging:
+      driver: 'none'  # disable saving logs
+    ports:
+      - '1025:1025' # smtp server
+      - '8025:8025' # web ui
+
   soapbox:
     image: soapbox:v1.0.0
     container_name: soapbox
     restart: always
     depends_on:
       - db
+      - mailserver
     env_file:
       - config/soapbox.env
     expose:
       - 8000
     ports:
       - '8000:8000'
+    command: flask run --host=0.0.0.0 --port=8000
 
 volumes:
   db:
