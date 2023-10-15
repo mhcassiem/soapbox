@@ -6,7 +6,6 @@ name = "pypi"
 [packages]
 flask = "*"
 flask-sqlalchemy = "*"
-flask-login = "*"
 flask-migrate = "*"
 psycopg2 = "*"
 flask-wtf = "*"
@@ -14,15 +13,16 @@ email-validator = "*"
 flask-jwt-extended = "*"
 flask-httpauth = "*"
 flask-mail = "*"
-flask-security-too = "*"
 zxcvbn = "*"
 argon2-cffi = "*"
 bleach = "*"
 gunicorn = "*"
 ariadne = "*"
+flask-login = {editable = true, ref = "main", git = "git+https://github.com/maxcountryman/flask-login.git"}
+flask-security-too = {editable = true, ref = "master", git = "git+https://github.com/Flask-Middleware/flask-security.git"}
 
 [dev-packages]
 httpie = "*"
 
 [requires]
-python_full_version = "3.10.10"
+python_full_version = "3.11.0"
