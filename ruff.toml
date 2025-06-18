@@ -1,0 +1,15 @@
+# ruff.toml
+
+line-length = 88
+indent-width = 4
+target-version = "py311"  # Or your current Python version
+
+[lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["B008"]  # Example: ignore line-length warning
+fixable = ["ALL"]
+
+[format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = true

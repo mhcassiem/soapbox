@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.log
+*.db
+*.bak
+
+# Poetry
+poetry.lock
+poetry.toml
+*.egg-info/
+dist/
+build/
+
+# Environment
+.env
+.env.*
+
+# Ruff & Lint
+ruff_cache/
+
+# Testing & Coverage
+.mypy_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# VSCode / PyCharm
+.vscode/
+.idea/
