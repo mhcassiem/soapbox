@@ -15,20 +15,27 @@ The backend service for Soapbox, built with FastAPI, Strawberry GraphQL, and Pos
 backend/
 ├── app/
 │   ├── auth/
+│   │   ├── dependencies.py
+│   │   ├── google.py
 │   │   ├── password.py
 │   │   ├── routes.py
-│   │   └── utils.py
-│   ├── db/
-│   │   ├── base.py
-│   │   └── session.py
-│   ├── graphql/
-│   │   ├── resolvers/
-│   │   │   └── user.py
 │   │   ├── schema.py
-│   │   └── types/
-│   │       └── user_type.py
-│   ├── models/
-│   │   └── user.py
+│   │   └── utils.py
+│   ├── graphql/
+│   │   ├── mutations/
+│   │   │   └── auth.py
+│   │   ├── queries/
+│   │   │   └── user.py
+│   │   ├── types/
+│   │   │   └── user_type.py
+│   │   ├── resolvers.py
+│   │   ├── schema.py
+│   ├── users/
+│   │   ├── models.py
+│   │   ├── routes.py
+│   │   └── schema.py
+│   ├── config.py
+│   ├── db.py
 │   └── main.py
 ├── tests/
 │   └── test_auth.py
