@@ -4,7 +4,7 @@ from fastapi import Request
 
 from app.auth.dependencies import get_current_user_from_request
 from app.db import get_db
-from app.graphql.resolvers import to_user_type
+from app.graphql.resolvers.user import to_user_type
 from app.graphql.types.user_types import UserType
 
 
