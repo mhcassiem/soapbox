@@ -23,4 +23,5 @@ class UserProfileQuery:
         profile = db.query(UserProfile).filter(UserProfile.user_id == user.id).first()
         if not profile:
             raise Exception("Profile not found")
-        return UserProfileType(**profile.__dict__) if profile else None
+        profile_dict = {k: v for k, v in profile.__dict__.items() if k != "_sa_instance_state"}
+        return UserProfileType(**profile_dict) if profile else None
