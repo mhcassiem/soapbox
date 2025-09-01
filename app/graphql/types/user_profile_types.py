@@ -2,10 +2,13 @@
 import strawberry
 from datetime import datetime
 
+from app.graphql.types.user_types import UserType
+
+
 @strawberry.type
 class UserProfileType:
     id: int
-    user_id: int
+    user: UserType
     display_name: str | None
     bio: str | None
     avatar_url: str | None

@@ -18,6 +18,10 @@ class User(Base):
         "UserProfile", back_populates="user", uselist=False, cascade="all, delete-orphan"
     )
 
+    @property
+    def has_password(self) -> bool:
+        return bool(self.hashed_password)
+
 
 class UserProfile(Base):
     __tablename__ = "user_profiles"
