@@ -17,5 +17,5 @@ async def read_me(request: Request, user: User = Depends(get_current_user)):
         "email": user.email,
         "full_name": user.full_name,
         "auth_provider": user.auth_provider,
-        "has_password": bool(user.hashed_password),
+        "has_password": user.has_password,
     }

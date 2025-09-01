@@ -8,5 +8,5 @@ def to_user_type(user: User) -> UserType:
         email=user.email,
         full_name=user.full_name,
         auth_provider=user.auth_provider,
-        has_password=user.hashed_password is not None,
+        has_password=user.has_password,
     )
